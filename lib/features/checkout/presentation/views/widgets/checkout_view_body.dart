@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fruits_hub/core/widgets/custom_button.dart';
+import 'package:fruits_hub/features/checkout/data/models/address_model.dart';
+import 'package:fruits_hub/features/checkout/presentation/views/widgets/address_input_section.dart';
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/checkout_stepper.dart';
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/checkout_steps_page_view.dart';
 
@@ -29,6 +31,11 @@ class _CheckoutViewBodyState extends State<CheckoutViewBody> {
   int _currentStep = 0;
   // Default payment method
   PaymentMethod _selectedPaymentMethod = PaymentMethod.paypal;
+  // Address data
+  AddressModel? _deliveryAddress;
+
+  // Reference to the address input section for form validation
+  final _addressSectionKey = GlobalKey<AddressInputSectionState>();
 
   @override
   void initState() {
@@ -57,6 +64,13 @@ class _CheckoutViewBodyState extends State<CheckoutViewBody> {
   void setPaymentMethod(PaymentMethod method) {
     setState(() {
       _selectedPaymentMethod = method;
+    });
+  }
+
+  // Method to update the delivery address
+  void setDeliveryAddress(AddressModel address) {
+    setState(() {
+      _deliveryAddress = address;
     });
   }
 
@@ -103,6 +117,10 @@ class _CheckoutViewBodyState extends State<CheckoutViewBody> {
       child: CheckOutStepsPageView(
         pageController: _pageController,
         onPaymentMethodChanged: setPaymentMethod,
+        onAddressSubmitted: setDeliveryAddress,
+        deliveryAddress: _deliveryAddress,
+        addressInputKey:
+            _addressSectionKey, // Pass the key to access the address input form
       ),
     );
   }
@@ -114,7 +132,7 @@ class _CheckoutViewBodyState extends State<CheckoutViewBody> {
       // For the payment page, change text based on selected payment method
       buttonText = _selectedPaymentMethod == PaymentMethod.cashOnDelivery
           ? 'تاكيد الطلب'
-          : 'الدفع عبر  PayPal';
+          : 'Pay with PayPal';
     }
 
     return CustomButton(
@@ -125,13 +143,35 @@ class _CheckoutViewBodyState extends State<CheckoutViewBody> {
 
   void _handleNavigation() {
     if (_currentStep < 2) {
+      // For address input page, validate the form first
+      if (_currentStep == 1) {
+        final addressFormState = _addressSectionKey.currentState;
+        if (addressFormState != null) {
+          final isValid = addressFormState.validateAndSubmitForm();
+          if (!isValid) {
+            // Show a snackbar with validation error message
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('الرجاء إدخال جميع البيانات المطلوبة بشكل صحيح'),
+                backgroundColor: Colors.red,
+                duration: Duration(seconds: 2),
+              ),
+            );
+            // Don't proceed to next page if validation fails
+            return;
+          }
+        }
+      }
+
+      // If we get here, validation passed or we're not on the address page
       _pageController.nextPage(
         duration: _animationDuration,
         curve: _animationCurve,
       );
     } else {
-      // Handle the final step action (process payment or confirm order)
-      // This could be implemented later
+      // Handle order completion based on payment method
+      print(
+          "Order completed with payment method: ${_selectedPaymentMethod == PaymentMethod.cashOnDelivery ? 'Cash on Delivery' : 'PayPal'}");
     }
   }
 }
