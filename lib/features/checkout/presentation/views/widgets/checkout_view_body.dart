@@ -101,7 +101,19 @@ class _CheckoutViewBodyState extends State<CheckoutViewBody> {
       child: Column(
         children: [
           const SizedBox(height: _verticalSpacing),
-          CheckoutStepper(currentStep: _currentStep),
+          CheckoutStepper(
+              onStepTapped: (tappedIndex) {
+                // Navigate the PageView to the tapped step
+                _pageController.animateToPage(
+                  tappedIndex,
+                  duration:
+                      _animationDuration, // Use the defined animation duration
+                  curve: _animationCurve, // Use the defined animation curve
+                );
+                // setState will be called by the _onPageChange listener
+                // when the page transition completes.
+              },
+              currentStep: _currentStep),
           const SizedBox(height: _verticalSpacing),
           _buildPageViewSection(),
           const SizedBox(height: _verticalSpacing),
