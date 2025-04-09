@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fruits_hub/core/widgets/custom_button.dart';
-import 'package:fruits_hub/features/checkout/data/models/address_model.dart';
+import 'package:fruits_hub/features/checkout/domain/entites/shipping_address_entity.dart';
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/address_input_section.dart';
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/checkout_stepper.dart';
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/checkout_steps_page_view.dart';
@@ -32,7 +32,7 @@ class _CheckoutViewBodyState extends State<CheckoutViewBody> {
   // Default payment method
   PaymentMethod _selectedPaymentMethod = PaymentMethod.paypal;
   // Address data
-  AddressModel? _deliveryAddress;
+  ShippingAddressEntity? _deliveryAddress;
 
   // Reference to the address input section for form validation
   final _addressSectionKey = GlobalKey<AddressInputSectionState>();
@@ -68,7 +68,7 @@ class _CheckoutViewBodyState extends State<CheckoutViewBody> {
   }
 
   // Method to update the delivery address
-  void setDeliveryAddress(AddressModel address) {
+  void setDeliveryAddress(ShippingAddressEntity address) {
     setState(() {
       _deliveryAddress = address;
     });

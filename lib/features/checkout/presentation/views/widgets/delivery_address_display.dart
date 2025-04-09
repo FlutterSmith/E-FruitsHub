@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fruits_hub/core/utils/app_images.dart';
-import 'package:fruits_hub/features/checkout/data/models/address_model.dart';
+import 'package:fruits_hub/features/checkout/domain/entites/shipping_address_entity.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
 class DeliveryAddressDisplay extends StatelessWidget {
-  final AddressModel address;
+  final ShippingAddressEntity address;
 
   const DeliveryAddressDisplay({
     super.key,
