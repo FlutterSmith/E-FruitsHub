@@ -253,7 +253,7 @@ class _CartViewBodyState extends State<CartViewBody>
                   }
                 : () {
                     Navigator.pushNamed(context, CheckoutView.routeName,
-                    arguments: cartItems);
+                        arguments: context.read<CartCubit>().cartEntity);
                   },
             text: cartItems.isEmpty
                 ? 'السلة فارغة'

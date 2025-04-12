@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fruits_hub/exports.dart';
+import 'package:fruits_hub/features/checkout/domain/entites/order_entity.dart';
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/shipping_item.dart';
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/checkout_view_body.dart';
 
@@ -58,7 +59,8 @@ class _ShippingSectionState extends State<ShippingSection> {
   Widget _buildBuyNowOption() {
     return ShippingItem(
       title: 'اشتري الان',
-      price: 'مجاني',
+      price: (context.read<OrderEntity>().cartEntity.getTotalPrice() + 40)
+          .toString(),
       isSelected: !isCashOnDeliverySelected,
       subtitle: 'يرجي تحديد طريقه الدفع',
       onTap: () => _toggleShippingOption(false),

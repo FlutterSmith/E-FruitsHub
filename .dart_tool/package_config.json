@@ -447,7 +447,7 @@
     },
     {
       "name": "provider",
-      "rootUri": "file:///C:/Users/SiNfuuL/AppData/Local/Pub/Cache/hosted/pub.dev/provider-6.1.2",
+      "rootUri": "file:///C:/Users/SiNfuuL/AppData/Local/Pub/Cache/hosted/pub.dev/provider-6.1.4",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -668,7 +668,7 @@
       "languageVersion": "3.5"
     }
   ],
-  "generated": "2025-03-25T01:09:21.733612Z",
+  "generated": "2025-04-18T18:38:02.075327Z",
   "generator": "pub",
   "generatorVersion": "3.7.0",
   "flutterRoot": "file:///C:/src/flutter/flutter",
