@@ -1,11 +1,13 @@
 import 'package:fruits_hub/core/widgets/build_custom_app_bar.dart';
 import 'package:fruits_hub/exports.dart';
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/checkout_view_body.dart';
+import 'package:fruits_hub/features/home/domain/entites/cart_item_entity.dart';
 
 class CheckoutView extends StatefulWidget {
   static const String routeName = 'checkout_view';
+  final List<CartItemEntity> cartItems;
 
-  const CheckoutView({super.key});
+  const CheckoutView({super.key, required this.cartItems});
 
   @override
   State<CheckoutView> createState() => _CheckoutViewState();
@@ -15,6 +17,7 @@ class _CheckoutViewState extends State<CheckoutView> {
   static const _defaultTitle = '  الشحن';
 
   String _currentTitle = _defaultTitle;
+
 
   void _updateTitle(String newTitle) {
     setState(() {

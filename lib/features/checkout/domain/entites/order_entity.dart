@@ -1,4 +1,4 @@
-import 'package:fruits_hub/features/checkout/data/models/address_model.dart';
+import 'package:fruits_hub/features/checkout/domain/entites/shipping_address_entity.dart';
 import 'package:fruits_hub/features/home/domain/entites/cart_item_entity.dart';
 
 class OrderEntity {

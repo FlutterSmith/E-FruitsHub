@@ -252,7 +252,8 @@ class _CartViewBodyState extends State<CartViewBody>
                     );
                   }
                 : () {
-                    Navigator.pushNamed(context, CheckoutView.routeName);
+                    Navigator.pushNamed(context, CheckoutView.routeName,
+                    arguments: cartItems);
                   },
             text: cartItems.isEmpty
                 ? 'السلة فارغة'
