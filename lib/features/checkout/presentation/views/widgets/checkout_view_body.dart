@@ -3,6 +3,12 @@ import 'package:fruits_hub/core/widgets/custom_button.dart';
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/checkout_stepper.dart';
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/checkout_steps_page_view.dart';
 
+// Payment method enum for better type safety
+enum PaymentMethod {
+  paypal,
+  cashOnDelivery,
+}
+
 class CheckoutViewBody extends StatefulWidget {
   const CheckoutViewBody({super.key, required this.onStepChanged});
 
@@ -21,6 +27,8 @@ class _CheckoutViewBodyState extends State<CheckoutViewBody> {
 
   late PageController _pageController;
   int _currentStep = 0;
+  // Default payment method
+  PaymentMethod _selectedPaymentMethod = PaymentMethod.paypal;
 
   @override
   void initState() {
@@ -43,6 +51,13 @@ class _CheckoutViewBodyState extends State<CheckoutViewBody> {
         });
       }
     }
+  }
+
+  // Method to update the selected payment method
+  void setPaymentMethod(PaymentMethod method) {
+    setState(() {
+      _selectedPaymentMethod = method;
+    });
   }
 
   String _getStepTitle(int step) {
@@ -85,14 +100,26 @@ class _CheckoutViewBodyState extends State<CheckoutViewBody> {
 
   Widget _buildPageViewSection() {
     return Expanded(
-      child: CheckOutStepsPageView(pageController: _pageController),
+      child: CheckOutStepsPageView(
+        pageController: _pageController,
+        onPaymentMethodChanged: setPaymentMethod,
+      ),
     );
   }
 
   Widget _buildNavigationButton() {
+    String buttonText = 'التالي'; // Default text for first two steps
+
+    if (_currentStep == 2) {
+      // For the payment page, change text based on selected payment method
+      buttonText = _selectedPaymentMethod == PaymentMethod.cashOnDelivery
+          ? 'تاكيد الطلب'
+          : 'الدفع عبر  PayPal';
+    }
+
     return CustomButton(
       onPressed: _handleNavigation,
-      text: 'التالي',
+      text: buttonText,
     );
   }
 
@@ -103,10 +130,8 @@ class _CheckoutViewBodyState extends State<CheckoutViewBody> {
         curve: _animationCurve,
       );
     } else {
-      _pageController.previousPage(
-        duration: _animationDuration,
-        curve: _animationCurve,
-      );
+      // Handle the final step action (process payment or confirm order)
+      // This could be implemented later
     }
   }
 }
