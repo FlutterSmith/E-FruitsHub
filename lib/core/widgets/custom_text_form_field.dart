@@ -6,6 +6,8 @@ class CustomTextFormField extends StatefulWidget {
   final TextInputType keyboardType;
   final bool isPasswordField;
   final void Function(String?)? onSaved;
+  final String? Function(String?)?
+      validator; // Added custom validator parameter
 
   const CustomTextFormField({
     super.key,
@@ -14,6 +16,7 @@ class CustomTextFormField extends StatefulWidget {
     this.keyboardType = TextInputType.text,
     this.isPasswordField = false,
     this.onSaved,
+    this.validator,
   });
 
   @override
@@ -35,10 +38,20 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     return TextFormField(
       onSaved: widget.onSaved,
       validator: (value) {
+        // Use the custom validator if provided, otherwise use the default validation
+        final customError =
+            widget.validator != null ? widget.validator!(value) : null;
+
         setState(() {
-          _isFieldValid = value != null && value.isNotEmpty;
+          // Field is valid if the custom validator returns null and the value is not empty
+          _isFieldValid =
+              customError == null && (value != null && value.isNotEmpty);
         });
-        if (!_isFieldValid) {
+
+        // Return the custom error if available, otherwise use default error
+        if (customError != null) {
+          return customError;
+        } else if (!_isFieldValid) {
           return 'هذا الحقل مطلوب';
         }
         return null;
@@ -99,4 +112,4 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       ),
     );
   }
-} 
+}
