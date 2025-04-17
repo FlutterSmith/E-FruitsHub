@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fruits_hub/features/checkout/data/models/address_model.dart';
+import 'package:fruits_hub/features/checkout/domain/entites/shipping_address_entity.dart';
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/checkout_view_body.dart';
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/delivery_address_display.dart';
 
@@ -21,7 +21,7 @@ class PaymentSection extends StatefulWidget {
   static const _containerBorderRadius = 4.0;
 
   final Function(PaymentMethod)? onPaymentMethodChanged;
-  final AddressModel? deliveryAddress;
+  final ShippingAddressEntity? deliveryAddress;
 
   const PaymentSection({
     super.key,

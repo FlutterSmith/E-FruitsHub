@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fruits_hub/features/checkout/data/models/address_model.dart';
+import 'package:fruits_hub/features/checkout/domain/entites/shipping_address_entity.dart';
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/address_input_section.dart';
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/payment_section.dart';
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/shipping_section.dart';
@@ -10,8 +10,8 @@ class CheckOutStepsPageView extends StatefulWidget {
 
   final PageController pageController;
   final Function(PaymentMethod)? onPaymentMethodChanged;
-  final Function(AddressModel)? onAddressSubmitted;
-  final AddressModel? deliveryAddress;
+  final Function(ShippingAddressEntity)? onAddressSubmitted;
+  final ShippingAddressEntity? deliveryAddress;
   // Add a parameter to pass the key to the AddressInputSection
   final Key? addressInputKey;
 

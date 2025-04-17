@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fruits_hub/core/utils/validation_utils.dart';
 import 'package:fruits_hub/exports.dart';
-import 'package:fruits_hub/features/checkout/data/models/address_model.dart';
+import 'package:fruits_hub/features/checkout/domain/entites/shipping_address_entity.dart';
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/custom_switch_button.dart';
 
 class AddressInputSection extends StatefulWidget {
-  final Function(AddressModel)? onAddressSubmitted;
+  final Function(ShippingAddressEntity)? onAddressSubmitted;
 
   const AddressInputSection({super.key, this.onAddressSubmitted});
 
@@ -140,8 +140,8 @@ class AddressInputSectionState extends State<AddressInputSection> {
   }
 
   // Method to collect form data and create AddressModel
-  AddressModel _collectFormData() {
-    return AddressModel(
+  ShippingAddressEntity _collectFormData() {
+    return ShippingAddressEntity(
       fullName: _fullNameController.text,
       email: _emailController.text,
       address: _addressController.text,
