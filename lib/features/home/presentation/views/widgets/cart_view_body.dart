@@ -242,9 +242,18 @@ class _CartViewBodyState extends State<CartViewBody>
             );
           },
           child: CustomButton(
-            onPressed: () {
-              Navigator.pushNamed(context, CheckoutView.routeName);
-            },
+            onPressed: cartItems.isEmpty
+                ? () {
+                    CustomSnackBar.show(
+                      context: context,
+                      message: 'السلة فارغة، أضف منتجات للمتابعة',
+                      type: SnackBarType.warning,
+                      duration: const Duration(seconds: 2),
+                    );
+                  }
+                : () {
+                    Navigator.pushNamed(context, CheckoutView.routeName);
+                  },
             text: cartItems.isEmpty
                 ? 'السلة فارغة'
                 : 'الدفع  ${totalPrice.toStringAsFixed(2)} جنيه',
