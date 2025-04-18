@@ -48,7 +48,8 @@ class _ShippingSectionState extends State<ShippingSection> {
   Widget _buildCashOnDeliveryOption() {
     return ShippingItem(
       title: 'الدفع عند الاستلام',
-      price: '40.00 جنيه ',
+      price:
+          '${context.read<OrderEntity>().cartEntity.getTotalPrice() + 40} جنيه',
       isSelected: isCashOnDeliverySelected,
       subtitle: 'التسليم من المكان',
       onTap: () => _toggleShippingOption(true),
@@ -59,8 +60,7 @@ class _ShippingSectionState extends State<ShippingSection> {
   Widget _buildBuyNowOption() {
     return ShippingItem(
       title: 'اشتري الان',
-      price: (context.read<OrderEntity>().cartEntity.getTotalPrice() + 40)
-          .toString(),
+      price: '${context.read<OrderEntity>().cartEntity.getTotalPrice()} جنيه',
       isSelected: !isCashOnDeliverySelected,
       subtitle: 'يرجي تحديد طريقه الدفع',
       onTap: () => _toggleShippingOption(false),
