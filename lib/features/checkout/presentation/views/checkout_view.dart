@@ -1,16 +1,11 @@
 import 'package:fruits_hub/core/widgets/build_custom_app_bar.dart';
 import 'package:fruits_hub/exports.dart';
-import 'package:fruits_hub/features/checkout/domain/entites/order_entity.dart';
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/checkout_view_body.dart';
-import 'package:fruits_hub/features/home/domain/entites/cart_entity.dart';
-import 'package:fruits_hub/features/home/domain/entites/cart_item_entity.dart';
-import 'package:provider/provider.dart';
 
 class CheckoutView extends StatefulWidget {
   static const String routeName = 'checkout_view';
-  final CartEntity cartEntity;
 
-  const CheckoutView({super.key, required this.cartEntity});
+  const CheckoutView({super.key});
 
   @override
   State<CheckoutView> createState() => _CheckoutViewState();
@@ -34,11 +29,8 @@ class _CheckoutViewState extends State<CheckoutView> {
         context,
         title: _currentTitle,
       ),
-      body: Provider.value(
-        value: OrderEntity(widget.cartEntity),
-        child: CheckoutViewBody(
-          onStepChanged: _updateTitle,
-        ),
+      body: CheckoutViewBody(
+        onStepChanged: _updateTitle,
       ),
     );
   }

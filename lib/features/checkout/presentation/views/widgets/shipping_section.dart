@@ -13,7 +13,8 @@ class ShippingSection extends StatefulWidget {
   State<ShippingSection> createState() => _ShippingSectionState();
 }
 
-class _ShippingSectionState extends State<ShippingSection> {
+class _ShippingSectionState extends State<ShippingSection>
+    with AutomaticKeepAliveClientMixin {
   static const _verticalSpacing = 16.0;
   static const _topSpacing = 30.0;
   static const _successColor = Color(0xFF3A8B33);
@@ -35,6 +36,7 @@ class _ShippingSectionState extends State<ShippingSection> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context); // Call super.build to maintain state
     return Column(
       children: [
         const SizedBox(height: _topSpacing),
@@ -83,4 +85,8 @@ class _ShippingSectionState extends State<ShippingSection> {
       }
     });
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
