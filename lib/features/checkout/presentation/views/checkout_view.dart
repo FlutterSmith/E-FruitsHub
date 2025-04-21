@@ -1,11 +1,13 @@
 import 'package:fruits_hub/core/widgets/build_custom_app_bar.dart';
 import 'package:fruits_hub/exports.dart';
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/checkout_view_body.dart';
+import 'package:fruits_hub/features/home/domain/entites/cart_entity.dart';
 
 class CheckoutView extends StatefulWidget {
   static const String routeName = 'checkout_view';
+  final CartEntity cartEntity;
 
-  const CheckoutView({super.key});
+  const CheckoutView({super.key, required this.cartEntity});
 
   @override
   State<CheckoutView> createState() => _CheckoutViewState();
@@ -21,7 +23,6 @@ class _CheckoutViewState extends State<CheckoutView> {
       _currentTitle = newTitle;
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,6 +32,7 @@ class _CheckoutViewState extends State<CheckoutView> {
       ),
       body: CheckoutViewBody(
         onStepChanged: _updateTitle,
+        cartEntity: widget.cartEntity,
       ),
     );
   }

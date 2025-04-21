@@ -12,9 +12,14 @@ enum PaymentMethod {
 }
 
 class CheckoutViewBody extends StatefulWidget {
-  const CheckoutViewBody({super.key, required this.onStepChanged});
+  const CheckoutViewBody({
+    super.key, 
+    required this.onStepChanged,
+    required this.cartEntity
+  });
 
   final void Function(String title) onStepChanged;
+  final CartEntity cartEntity;
 
   @override
   State<CheckoutViewBody> createState() => _CheckoutViewBodyState();

@@ -4,6 +4,7 @@ import 'package:fruits_hub/features/checkout/presentation/views/widgets/address_
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/payment_section.dart';
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/shipping_section.dart';
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/checkout_view_body.dart';
+import 'package:fruits_hub/features/home/domain/entites/cart_entity.dart';
 
 class CheckOutStepsPageView extends StatefulWidget {
   static const _verticalPadding = 16.0;
@@ -14,10 +15,12 @@ class CheckOutStepsPageView extends StatefulWidget {
   final ShippingAddressEntity? deliveryAddress;
   // Add a parameter to pass the key to the AddressInputSection
   final Key? addressInputKey;
+  final CartEntity cartEntity;
 
   const CheckOutStepsPageView({
     super.key,
     required this.pageController,
+    required this.cartEntity,
     this.onPaymentMethodChanged,
     this.onAddressSubmitted,
     this.deliveryAddress,
