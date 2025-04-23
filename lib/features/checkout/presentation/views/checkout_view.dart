@@ -23,6 +23,7 @@ class _CheckoutViewState extends State<CheckoutView> {
       _currentTitle = newTitle;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

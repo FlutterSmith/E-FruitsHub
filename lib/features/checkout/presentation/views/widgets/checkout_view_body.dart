@@ -4,6 +4,7 @@ import 'package:fruits_hub/features/checkout/domain/entites/shipping_address_ent
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/address_input_section.dart';
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/checkout_stepper.dart';
 import 'package:fruits_hub/features/checkout/presentation/views/widgets/checkout_steps_page_view.dart';
+import 'package:fruits_hub/features/home/domain/entites/cart_entity.dart';
 
 // Payment method enum for better type safety
 enum PaymentMethod {
@@ -12,11 +13,8 @@ enum PaymentMethod {
 }
 
 class CheckoutViewBody extends StatefulWidget {
-  const CheckoutViewBody({
-    super.key, 
-    required this.onStepChanged,
-    required this.cartEntity
-  });
+  const CheckoutViewBody(
+      {super.key, required this.onStepChanged, required this.cartEntity});
 
   final void Function(String title) onStepChanged;
   final CartEntity cartEntity;
@@ -133,6 +131,7 @@ class _CheckoutViewBodyState extends State<CheckoutViewBody> {
     return Expanded(
       child: CheckOutStepsPageView(
         pageController: _pageController,
+        cartEntity: widget.cartEntity,
         onPaymentMethodChanged: setPaymentMethod,
         onAddressSubmitted: setDeliveryAddress,
         deliveryAddress: _deliveryAddress,
