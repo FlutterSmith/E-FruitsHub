@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fruits_hub/core/helper/get_user.dart';
 import 'package:provider/provider.dart';
 import 'package:fruits_hub/features/checkout/domain/entites/shipping_address_entity.dart';
 import 'package:fruits_hub/features/checkout/domain/entites/order_entity.dart';
@@ -37,7 +38,8 @@ class _CheckOutStepsPageViewState extends State<CheckOutStepsPageView> {
   @override
   Widget build(BuildContext context) {
     return Provider<OrderEntity>(
-      create: (context) => OrderEntity(widget.cartEntity),
+      create: (context) => OrderEntity(widget.cartEntity,
+          shippingAddressEntity: widget.deliveryAddress!, uID: getUser()!.uId),
       child: Padding(
         padding: const EdgeInsets.symmetric(
             vertical: CheckOutStepsPageView._verticalPadding),

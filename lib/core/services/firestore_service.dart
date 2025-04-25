@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fruits_hub/core/services/database_service.dart';
-import 'package:fruits_hub/features/auth/data/models/user_model.dart';
-import 'package:fruits_hub/features/auth/domain/entites/user_entity.dart';
 
 class FireStoreService implements DatabaseService {
   @override
@@ -30,9 +28,17 @@ class FireStoreService implements DatabaseService {
     } else {
       Query<Map<String, dynamic>> data = firestore.collection(path);
       if (query != null) {
+        // Handle where clauses
+        if (query['where'] != null) {
+          var whereClause = query['where'] as Map<String, dynamic>;
+          whereClause.forEach((field, value) {
+            data = data.where(field, isEqualTo: value);
+          });
+        }
+
         if (query['orderBy'] != null) {
           var orderBy = query['orderBy'];
-          var descending = query['descending'];
+          var descending = query['descending'] ?? false;
 
           data = data.orderBy(orderBy, descending: descending);
         }
