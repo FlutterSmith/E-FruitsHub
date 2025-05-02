@@ -1,1 +1,4 @@
-Makefile linguist-language=Makefile
+Makefile linguist-vendored
+*.bat linguist-generated
+*.c linguist-language-c
+build-scripts/* linguist-vendored
