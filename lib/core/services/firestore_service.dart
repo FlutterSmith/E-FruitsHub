@@ -24,6 +24,10 @@ class FireStoreService implements DatabaseService {
     if (docId != null) {
       var data = await firestore.collection(path).doc(docId).get();
 
+      if (!data.exists || data.data() == null) {
+        throw Exception('Document does not exist at path: $path/$docId');
+      }
+
       return data.data() as Map<String, dynamic>;
     } else {
       Query<Map<String, dynamic>> data = firestore.collection(path);

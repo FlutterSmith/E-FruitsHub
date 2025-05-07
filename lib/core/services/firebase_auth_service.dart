@@ -19,7 +19,7 @@ class FirebaseAuthService {
 
       return credential.user!;
     } on FirebaseAuthException catch (e) {
-      log('Exception in FirebaseAuthService.createUserWithEmailAndPassword: $e.toString()}');
+      log('Exception in FirebaseAuthService.createUserWithEmailAndPassword: ${e.toString()}');
       if (e.code == 'weak-password') {
         throw CustomExceptions(message: 'الرقم السري ضعيف جداً.');
       } else if (e.code == 'email-already-in-use') {
@@ -49,7 +49,7 @@ class FirebaseAuthService {
 
       return credential.user!;
     } on FirebaseAuthException catch (e) {
-      log('Exception in FirebaseAuthService.signInWithEmailAndPassword: $e.toString()}');
+      log('Exception in FirebaseAuthService.signInWithEmailAndPassword: ${e.toString()}');
       if (e.code == 'user-not-found') {
         throw CustomExceptions(
             message: 'البريد الإلكتروني او كلمة المرور غير صحيحة.');
@@ -73,17 +73,54 @@ class FirebaseAuthService {
   }
 
   Future<User> signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    try {
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+      // Check if user cancelled sign-in
+      if (googleUser == null) {
+        throw CustomExceptions(message: 'تم إلغاء تسجيل الدخول بواسطة جوجل.');
+      }
 
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
-    return (await FirebaseAuth.instance.signInWithCredential(credential)).user!;
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      // Sign in to Firebase with the credential
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      if (userCredential.user == null) {
+        throw CustomExceptions(
+            message: 'فشل تسجيل الدخول. الرجاء المحاولة مرة اخرى.');
+      }
+
+      return userCredential.user!;
+    } on FirebaseAuthException catch (e) {
+      log('FirebaseAuthException in signInWithGoogle: ${e.code} - ${e.message}');
+      if (e.code == 'account-exists-with-different-credential') {
+        throw CustomExceptions(
+            message: 'الحساب موجود بالفعل مع بيانات اعتماد مختلفة.');
+      } else if (e.code == 'network-request-failed') {
+        throw CustomExceptions(message: 'تاكد من اتصالك بالانترنت.');
+      } else {
+        throw CustomExceptions(
+            message: 'فشل تسجيل الدخول بواسطة جوجل. الرجاء المحاولة مرة اخرى.');
+      }
+    } catch (e) {
+      log('Exception in signInWithGoogle: ${e.toString()}');
+      if (e is CustomExceptions) {
+        rethrow;
+      }
+      throw CustomExceptions(
+          message: 'لقد حدث خطأ ما. الرجاء المحاولة مرة اخرى.');
+    }
   }
 
   bool isLoggedIn() {

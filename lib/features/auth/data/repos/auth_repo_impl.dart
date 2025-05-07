@@ -134,24 +134,50 @@ class AuthRepoImpl extends AuthRepo {
 
   @override
   Future addUserData({required UserEntity user}) async {
-    await databaseService.addData(
-      path: BackendEndpoint.addUserData,
-      data: UserModel.fromEntity(user).toMap(),
-      docId: user.uId,
-    );
+    try {
+      await databaseService.addData(
+        path: BackendEndpoint.addUserData,
+        data: UserModel.fromEntity(user).toMap(),
+        docId: user.uId,
+      );
+    } catch (e) {
+      log('Error adding user data: ${e.toString()}');
+      throw CustomExceptions(
+          message: 'فشل في حفظ بيانات المستخدم. الرجاء المحاولة مرة اخرى.');
+    }
   }
 
   @override
   Future<UserEntity> getUserData({required String uid}) async {
-    var userData = await databaseService.getData(
-        path: BackendEndpoint.getUserData, docId: uid);
+    try {
+      var userData = await databaseService.getData(
+          path: BackendEndpoint.getUserData, docId: uid);
 
-    return UserModel.fromJson(userData);
+      if (userData == null) {
+        throw CustomExceptions(
+            message: 'بيانات المستخدم غير موجودة. الرجاء إنشاء حساب جديد.');
+      }
+
+      return UserModel.fromJson(userData);
+    } catch (e) {
+      log('Error getting user data: ${e.toString()}');
+      if (e is CustomExceptions) {
+        rethrow;
+      }
+      throw CustomExceptions(
+          message: 'فشل في جلب بيانات المستخدم. الرجاء المحاولة مرة اخرى.');
+    }
   }
 
   @override
   Future saveUserData({required UserEntity user}) async {
-    var jsonData = jsonEncode(UserModel.fromEntity(user).toMap());
-    await Prefs.setString(kUserData, jsonData);
+    try {
+      var jsonData = jsonEncode(UserModel.fromEntity(user).toMap());
+      await Prefs.setString(kUserData, jsonData);
+    } catch (e) {
+      log('Error saving user data to SharedPreferences: ${e.toString()}');
+      // Don't throw here as this is not critical - user can still use the app
+      // but will need to login again next time
+    }
   }
 }

@@ -9,8 +9,8 @@ class LoginViewBody extends StatefulWidget {
 
 class _LoginViewBodyState extends State<LoginViewBody> {
   AutovalidateMode autovaildateMode = AutovalidateMode.disabled;
-  late String email;
-  late String password;
+  String? email;
+  String? password;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
             children: [
               CustomTextFormField(
                 onSaved: (value) {
-                  email = value!;
+                  email = value?.trim();
                 },
                 hintText: 'البريد الإلكتروني',
                 keyboardType: TextInputType.emailAddress,
@@ -32,7 +32,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
               const SizedBox(height: 20),
               CustomTextFormField(
                 onSaved: (value) {
-                  password = value!;
+                  password = value?.trim();
                 },
                 hintText: 'كلمة المرور',
                 isPasswordField: true,
@@ -54,9 +54,11 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   if (formKey.currentState!.validate()) {
                     formKey.currentState!.save();
 
-                    context
-                        .read<SigninCubit>()
-                        .signInWithEmailAndPassword(email, password);
+                    if (email != null && password != null) {
+                      context
+                          .read<SigninCubit>()
+                          .signInWithEmailAndPassword(email!, password!);
+                    }
                   } else {
                     setState(() {
                       autovaildateMode = AutovalidateMode.always;
