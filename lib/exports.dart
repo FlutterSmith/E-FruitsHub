@@ -7,7 +7,7 @@ export 'package:firebase_core/firebase_core.dart';
 export 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 export 'package:flutter/gestures.dart';
 export 'package:flutter/widgets.dart';
-export 'dart:io';
+export 'package:flutter/foundation.dart' show kIsWeb;
 
 // Core imports
 export 'core/cubits/products_cubit/products_cubit.dart';

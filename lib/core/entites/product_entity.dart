@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:fruits_hub/core/entites/review_entity.dart';
 
 class ProductEntity {

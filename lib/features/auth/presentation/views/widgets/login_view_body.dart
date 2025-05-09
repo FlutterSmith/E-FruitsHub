@@ -85,16 +85,8 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   context.read<SigninCubit>().signinWithGoogle();
                 },
               ),
-              if (Platform.isIOS)
-                const SizedBox(
-                  height: 16,
-                ),
-              if (Platform.isIOS)
-                SocialLoginButton(
-                  label: 'تسجيل بواسطة أبل',
-                  assetPath: Assets.assetsImagesApple,
-                  onPressed: () {},
-                ),
+              // Apple Sign-In hidden on web (only works on iOS)
+              // TODO: Add Platform.isIOS check for mobile when needed
               const SizedBox(
                 height: 16,
               ),
