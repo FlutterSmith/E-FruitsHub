@@ -1,4 +1,8 @@
+# Exclude build artifacts and generated files from language stats
 Makefile linguist-vendored
 *.bat linguist-generated
 *.c linguist-language-c
+*.cmake linguist-vendored
 build-scripts/* linguist-vendored
+android/.cxx/** linguist-vendored
+build/** linguist-vendored
